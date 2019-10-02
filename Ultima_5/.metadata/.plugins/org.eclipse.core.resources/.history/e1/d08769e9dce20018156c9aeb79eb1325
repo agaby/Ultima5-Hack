@@ -1,0 +1,104 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.RandomAccessFile;
+
+public class Main {
+
+	public static void main(String[] args) throws IOException {
+		// TODO Auto-generated method stub
+		String saved = "C:\\Ultima_5\\SAVED.GAM";
+		String empty = "C:\\empty\\SAVED.GAM";
+
+	
+		RandomAccessFile f1 = new RandomAccessFile(saved, "rw");
+		RandomAccessFile f2 = new RandomAccessFile(empty, "rw");
+
+//		f1 = readFile(saved);
+//		f2 = readFile(empty);
+		
+		int dex=14;
+		int str=15;
+		int Int=16;
+		int magic=17;
+		int hm=18;
+		int hp=20;
+		int ex=22;
+		
+// eman
+	for (int i=0; i<4; i++){
+		writeToRandomAccessFile(saved,dex,99);   dex=dex+32;
+		writeToRandomAccessFile(saved,str,99);   str=str+32;
+		writeToRandomAccessFile(saved,Int,99);   Int=Int+32;
+		writeToRandomAccessFile(saved,magic,02); magic=magic+32;
+		writeToRandomAccessFile(saved,hm,00);    hm=hm+32;
+		writeToRandomAccessFile(saved,hp,00);    hp=hp+32;
+		writeToRandomAccessFile(saved,ex,00);    ex=ex+32;
+	}
+	/*
+// shamino
+		writeToRandomAccessFile(saved,dex,99); dex=dex+32;
+		writeToRandomAccessFile(saved,47,99);  str=str+32;
+		writeToRandomAccessFile(saved,48,99);  Int=Int+32;
+		writeToRandomAccessFile(saved,49,2);   magic=magic+32;
+//		writeToRandomAccessFile(saved,50,999);
+//		writeToRandomAccessFile(saved,52,999);		
+//		writeToRandomAccessFile(saved,54,9999);
+		
+// Lolo		
+		writeToRandomAccessFile(saved,dex,99); dex=dex+32;
+		writeToRandomAccessFile(saved,79,99);  str=str+32;
+		writeToRandomAccessFile(saved,80,99);  Int=Int+32;
+		writeToRandomAccessFile(saved,81,02);  magic=magic+32;
+//		writeToRandomAccessFile(saved,82,999);
+//		writeToRandomAccessFile(saved,84,999);
+//		writeToRandomAccessFile(saved,86,9999);
+//		f1.seek(30);
+		
+//		mariah
+		writeToRandomAccessFile(saved,dex,99); dex=dex+32;
+		*/
+
+
+	}
+	
+	public static void writeToRandomAccessFile(String file, int position, int b) {
+        try {
+            RandomAccessFile fileStore = new RandomAccessFile(file, "rw");
+
+            // moves file pointer to position specified
+            fileStore.seek(position);
+
+            // writing to RandomAccessFile
+            fileStore.write(b);
+            fileStore.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+	
+
+	public static RandomAccessFile readFile(String fileName) throws IOException {
+		RandomAccessFile raf = new RandomAccessFile(fileName, "rw");
+		int counter = raf.readInt();
+		String msg = raf.readUTF();
+
+		System.out.println(counter);
+		System.out.println(msg);
+		incrementReadCounter(raf);
+		raf.close();
+		return raf;
+	}
+
+	public static void incrementReadCounter(RandomAccessFile raf) throws IOException {
+		long currentPosition = raf.getFilePointer();
+		raf.seek(0);
+		int counter = raf.readInt();
+		counter++;
+		raf.seek(0);
+		raf.writeInt(counter);
+		raf.seek(currentPosition);
+	}
+
+}
